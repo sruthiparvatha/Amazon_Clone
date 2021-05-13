@@ -2,9 +2,11 @@ import React from "react";
 import CurrencyFormat from "react-currency-format";
 import { getCartTotal } from "./reducer";
 import { useStateValue } from "./StateProvider";
+import { useHistory } from "react-router-dom"; 
 import "./Subtotal.css";
 
 function Subtotal() {
+  const history = useHistory();
   const [{ basket }, dispatch] = useStateValue();
 
   //   var sum = 0;
@@ -35,7 +37,7 @@ function Subtotal() {
         prefix={"₹"}
       ></CurrencyFormat>
 
-      <button className="subtotal__btn">Proceed to CheckOut</button>
+      <button onClick={e=> history.push('/payment')} className="subtotal__btn" >Proceed to CheckOut</button>
     </div>
   );
 }

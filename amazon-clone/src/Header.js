@@ -12,6 +12,7 @@ function Header() {
 
   const handleAuthentication = () => {
     if(user){
+      // to sign out using firebase
       auth.signOut();
     }
   }

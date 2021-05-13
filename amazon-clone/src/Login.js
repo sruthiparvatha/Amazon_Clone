@@ -14,6 +14,7 @@ function Login() {
         auth
             .signInWithEmailAndPassword(email, password)
             .then(auth =>{
+                // Redirecting to the homepage
                 history.push('/');
             })
             .catch(error => alert(error.message));
@@ -27,18 +28,13 @@ function Login() {
         .createUserWithEmailAndPassword(email, password)
         .then((auth) =>{
             // It successfully created a new user with email and password
-            console.log(auth);
             if(auth){
                 history.push('/');
             }
         })
         .catch(error => alert(error.message));
         
-        
-        
-
-       
-
+   
     }
 
     return (
