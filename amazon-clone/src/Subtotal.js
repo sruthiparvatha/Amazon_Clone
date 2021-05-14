@@ -37,7 +37,7 @@ function Subtotal() {
         prefix={"₹"}
       ></CurrencyFormat>
 
-      <button onClick={e=> history.push('/payment')} className="subtotal__btn" >Proceed to CheckOut</button>
+      <button onClick={e=> history.push('/payments')} className="subtotal__btn" >Proceed to CheckOut</button>
     </div>
   );
 }

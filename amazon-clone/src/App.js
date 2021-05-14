@@ -8,6 +8,7 @@ import Payment from './Payment.js';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { auth } from './firebase';
 import { useStateValue } from "./StateProvider";
+import Orders from './Orders.js';
 
 import {loadStripe} from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
@@ -50,6 +51,10 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/orders">
+            <Header />
+            <Orders />
+          </Route>
           <Route path="/checkout">
             <Header />
             <Checkout />
@@ -60,6 +65,8 @@ function App() {
               <Payment />
             </Elements>          
           </Route>
+
+
           <Route path="/">
             <Header />
             <Home />

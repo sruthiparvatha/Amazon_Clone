@@ -3,15 +3,17 @@ import {useState, useEffect} from 'react'
 import './Payment.css';
 import { useStateValue } from './StateProvider';
 import CheckoutProduct from "./CheckoutProduct";
-import { Link, history } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import CurrencyFormat from "react-currency-format";
 import { getCartTotal } from "./reducer";
 import axios from './axios.js'
+import { db } from './firebase';
 
 function Payment() {
     const [{ basket, user }, dispatch] = useStateValue();
 
+    const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
 
@@ -34,9 +36,13 @@ function Payment() {
                 // Stripe expects the total in a currencies subunit
                 url: `/payments/create?total=${getCartTotal(basket)*100}`
             })
+            setClientSecret(response.data.clientSecret);
         } 
+        
         getClientSecret();
     },[basket])
+
+    // console.log('The SECRET IS >>>', clientSecret)
 
     const handleSubmit = async (event) => {
         // do all the stripe stuff
@@ -48,6 +54,35 @@ function Payment() {
             payment_method: {
                 card: elements.getElement(CardElement)
             }
+        }).then(({paymentIntent }) => {
+            // paymentIntent = payment confirmation intent
+
+            //store to firestore
+            db
+            .collection('users')
+            .doc(user?.uid)
+            .collection('orders')
+            .doc(paymentIntent.id)
+            .set({
+                basket: basket,
+                amount: paymentIntent.amount,
+                created: paymentIntent.created,
+            })
+
+            
+            setSucceeded(true);
+            setError(null);
+            setProcessing(false);
+
+            // Empty the basket once payment is done
+            dispatch({
+                type: 'EMPTY_BASKET'
+            })
+
+            // Once payment is successful redirect to the orders page
+            history.replace('/orders')
+
+         
         })
 
         // const payload = await stripe
@@ -59,6 +94,7 @@ function Payment() {
         setDisabled(e.empty);
         setError(e.error? e.error.message : "");
     }
+
 
     return (
         <div className="payment">
@@ -127,7 +163,7 @@ function Payment() {
                                         value={getCartTotal(basket)} /* Part of the homework*/
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"₹"}
+                                        prefix={"₹"}  //Symbol shortcut ctrl+alt+4
                                     >
                                         </CurrencyFormat>
                                         <button disabled={processing || disabled || succeeded}>

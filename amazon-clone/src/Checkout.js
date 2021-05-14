@@ -17,7 +17,7 @@ function Checkout() {
         <h3>Hello, {user?.email}</h3>
         <strong> </strong>
 
-        {basket.map((item) => (
+        {basket?.map((item) => (
           <CheckoutProduct
             id={item.id}
             title={item.title}

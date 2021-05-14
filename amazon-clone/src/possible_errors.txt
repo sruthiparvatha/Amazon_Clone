@@ -1,0 +1,3 @@
+
+Basket is empty after placing the order
+Basket is empty when you redirect to the order page as well
