@@ -32,3 +32,6 @@ This a clone of the infamous Internet-based enterprise Amazon.com using ReactJS.
 
 ![amzn7](https://user-images.githubusercontent.com/44310675/104288043-48c04d80-54dd-11eb-858b-15645b936203.png)
 
+## **Deployed Application**
+[Click here to check out the clone](https://hybrid-saga-258704.web.app/)
+
